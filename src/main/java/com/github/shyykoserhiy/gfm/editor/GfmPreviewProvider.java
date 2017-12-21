@@ -31,31 +31,34 @@ public class GfmPreviewProvider implements FileEditorProvider {
         FileEditor fileEditor = null;
         Document document = FileDocumentManager.getInstance().getDocument(virtualFile);
         switch (GfmGlobalSettings.getInstance().getRenderingEngine()) {
-            case JX_BROWSER:
-                fileEditor = new GfmPreviewJX(virtualFile, document);
-                break;
+//            case JX_BROWSER:
+//                fileEditor = new GfmPreviewJX(virtualFile, document);
+//                break;
             case FX_WEBVIEW:
                 String javaHome = System.getProperty("java.home");
                 File jfxrt = new File(FileUtil.join(javaHome, "lib", "ext", "jfxrt.jar"));
                 if (jfxrt.exists()) {
                     try {
-                        PluginClassLoader pluginClassLoader = (PluginClassLoader) this.getClass().getClassLoader();
-                        URL url = jfxrt.toURI().toURL();
-                        if (!pluginClassLoader.getUrls().contains(url)) {
-                            ((PluginClassLoader) this.getClass().getClassLoader()).addURL(url);
-                        }
+//                        PluginClassLoader pluginClassLoader = (PluginClassLoader) this.getClass().getClassLoader();
+//                        URL url = jfxrt.toURI().toURL();
+//                        if (!pluginClassLoader.getUrls().contains(url)) {
+//                            ((PluginClassLoader) this.getClass().getClassLoader()).addURL(url);
+//                        }
                         fileEditor = new GfmPreviewFX(virtualFile, document);
-                    } catch (MalformedURLException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
+                } else {
+                    throw new RuntimeException("JavaFx lib `jfxrt.jar` not exist at: " + jfxrt.getAbsolutePath());
                 }
                 break;
-            case LOBOEVOLUTION:
-                fileEditor = new GfmPreviewLobo(virtualFile, document);
-                break;
+//            case LOBOEVOLUTION:
+//                fileEditor = new GfmPreviewLobo(virtualFile, document);
+//                break;
         }
         if (fileEditor == null) {
-            fileEditor = new GfmPreviewJX(virtualFile, document); //todo show message that selected is not supported
+//            fileEditor = new GfmPreviewJX(virtualFile, document); //todo show message that selected is not supported
+            throw new RuntimeException("Not found browser libs!");
         }
         return fileEditor;
     }

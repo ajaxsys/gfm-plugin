@@ -20,7 +20,7 @@ public class GfmPreviewFX extends ModernGfmPreview {
 
     public GfmPreviewFX(@NotNull VirtualFile markdownFile, @NotNull Document document) {
         super(markdownFile, document);
-        this.browser = new BrowserFx();
+        this.browser = BrowserFx.get();
         addPopupListener();
     }
 
@@ -67,7 +67,13 @@ public class GfmPreviewFX extends ModernGfmPreview {
                             "Array.prototype.slice.apply(document.querySelectorAll('pre code')).forEach(function(block){" +
                             "   hljs.highlightBlock(block);" +
                             "});";
-                    JSObject jsobj = (JSObject) webEngine.executeScript("window");
+
+                    JSObject jsobj = null;
+                    try {
+                        jsobj = (JSObject) webEngine.executeScript("window");
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
                     jsobj.setMember("java", new JSMarkdownBridge(markdown, title));
                     if (webEngine.getLoadWorker().getState() == Worker.State.SUCCEEDED) {
                         webEngine.executeScript(script);

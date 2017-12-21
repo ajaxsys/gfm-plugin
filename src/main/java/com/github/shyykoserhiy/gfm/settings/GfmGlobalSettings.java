@@ -33,7 +33,7 @@ public class GfmGlobalSettings implements PersistentStateComponent<Element> {
     private String githubAccessToken = "";
     private int connectionTimeout = 2000;
     private int socketTimeout = 2000;
-    private RenderingEngine renderingEngine = RenderingEngine.JX_BROWSER;
+    private RenderingEngine renderingEngine = RenderingEngine.FX_WEBVIEW;
     private boolean useOffline = JnaMarkdownParser.isSupported();
     private boolean replacePreviewTab = false;
     private boolean useFullWidthRendering = false;

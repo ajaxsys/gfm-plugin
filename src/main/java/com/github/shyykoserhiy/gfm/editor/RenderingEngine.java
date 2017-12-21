@@ -1,7 +1,7 @@
 package com.github.shyykoserhiy.gfm.editor;
 
 public enum RenderingEngine {
-    JX_BROWSER("JxBrowser"), FX_WEBVIEW("JavaFX WebView"), LOBOEVOLUTION("Loboevolution");
+    FX_WEBVIEW("JavaFX WebView");
     private String text;
 
     RenderingEngine(String text) {

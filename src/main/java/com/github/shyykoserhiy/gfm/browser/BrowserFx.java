@@ -1,5 +1,6 @@
 package com.github.shyykoserhiy.gfm.browser;
 
+import com.github.shyykoserhiy.gfm.toolwindow.browser.BrowserToolWindow;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.concurrent.*;
 
 public class BrowserFx implements IsBrowser {
@@ -21,7 +23,15 @@ public class BrowserFx implements IsBrowser {
     private WebView webView;
     private final JFXPanelRetina jfxPanelRetina;
 
-    public BrowserFx() {
+    public static synchronized BrowserFx get() {
+//        if (self == null) {
+//            self = new BrowserFx();
+//        }
+        return new BrowserFx();
+    }
+
+    private BrowserFx() {
+
         jPanel = new JPanel(new BorderLayout(), true);
         jfxPanelRetina = new JFXPanelRetina(); // initializing javafx
         jPanel.add(jfxPanelRetina, BorderLayout.CENTER);
@@ -209,7 +219,7 @@ public class BrowserFx implements IsBrowser {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                webView.getEngine().load("file:" + file.getAbsolutePath());
+                webView.getEngine().load("file:///" + file.getAbsolutePath());
             }
         });
     }
@@ -232,7 +242,7 @@ public class BrowserFx implements IsBrowser {
     private class JFXPanelRetina extends JFXPanel {
         @Override
         public void removeNotify() {
-            /*try { //fixme? significantly increases performance(but probably can lead to errors:))
+            /*try { //fixme? what's this? significantly increases performance(but probably can lead to errors:))
                 Field scaleFactor = JFXPanel.class.getDeclaredField("scaleFactor");
                 scaleFactor.setAccessible(true);
                 scaleFactor.setInt(this, 1);

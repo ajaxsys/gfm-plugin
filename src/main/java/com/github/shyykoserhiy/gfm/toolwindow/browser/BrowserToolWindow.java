@@ -1,8 +1,8 @@
 package com.github.shyykoserhiy.gfm.toolwindow.browser;
 
 import com.github.shyykoserhiy.gfm.browser.BrowserFx;
-import com.github.shyykoserhiy.gfm.browser.BrowserJx;
-import com.github.shyykoserhiy.gfm.browser.BrowserLobo;
+//import com.github.shyykoserhiy.gfm.browser.BrowserJx;
+//import com.github.shyykoserhiy.gfm.browser.BrowserLobo;
 import com.github.shyykoserhiy.gfm.browser.IsBrowser;
 import com.github.shyykoserhiy.gfm.settings.GfmGlobalSettings;
 import com.intellij.ide.plugins.cl.PluginClassLoader;
@@ -104,9 +104,9 @@ public class BrowserToolWindow extends JPanel implements Disposable {
     private IsBrowser createBrowser() {
         IsBrowser browser = null;
         switch (GfmGlobalSettings.getInstance().getRenderingEngine()) {
-            case JX_BROWSER:
-                browser = new BrowserJx();
-                break;
+//            case JX_BROWSER:
+//                browser = new BrowserJx();
+//                break;
             case FX_WEBVIEW:
                 String javaHome = System.getProperty("java.home");
                 File jfxrt = new File(FileUtil.join(javaHome, "lib", "ext", "jfxrt.jar"));
@@ -117,18 +117,19 @@ public class BrowserToolWindow extends JPanel implements Disposable {
                         if (!pluginClassLoader.getUrls().contains(url)) {
                             ((PluginClassLoader) this.getClass().getClassLoader()).addURL(url);
                         }
-                        browser = new BrowserFx();
+                        browser = BrowserFx.get();
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
                 }
                 break;
-            case LOBOEVOLUTION:
-                browser = new BrowserLobo();
-                break;
+//            case LOBOEVOLUTION:
+//                browser = new BrowserLobo();
+//                break;
         }
         if (browser == null) {
-            browser = new BrowserJx();
+//            browser = new BrowserJx();
+            throw new RuntimeException("Not found Browser libs!!!");
         }
         return browser;
     }

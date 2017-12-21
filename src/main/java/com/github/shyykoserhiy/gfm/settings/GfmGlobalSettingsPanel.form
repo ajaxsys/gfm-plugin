@@ -98,9 +98,9 @@
         <properties>
           <editable value="false"/>
           <model>
-            <item value="JxBrowser"/>
             <item value="JavaFX WebView"/>
-            <item value="Loboevolution"/>
+            <item value="JxBrowser(Unsupport)"/>
+            <item value="Loboevolution(Unsupport)"/>
           </model>
         </properties>
       </component>
